@@ -1,4 +1,7 @@
 <?php
+
+use LDAP\Result;
+
     error_reporting(-1);
     
     /* データベース設定 */
@@ -38,9 +41,15 @@
 
             $sql = 'SELECT * FROM sortable';
             $stmt = $dbh->query($sql);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // PDO::FETCH_ASSOCで(カラム名で添え字をつけた配列を返す)
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            print_r($result) 
+            // print_r($result) 
+            foreach ($results as $result) {
+                echo ' <div class="drag" data-num="'.$result['id'].'" style="left:'.$result['left_x'].'px; top:'.$result['top_y'].'px;">'.PHP_EOL;
+                echo '    <p><span class="name">'.$result['id'].' '.$result['name'].'</span></p>'.PHP_EOL;
+                echo '  </div>'.PHP_EOL;
+            }
             ?>
 
             
