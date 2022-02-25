@@ -4,26 +4,6 @@
     
    require_once('./config/config.php');
 
-if(!empty($_POST['inputName'])) {
-    try{
-        $sql = 'INSERT INTO sortable(name,gender_id) VALUES(:ONAMAE,:GENDER)';
-        // prepare:値をデータベースに入れる準備をする
-        $stmt = $dbh->prepare($sql);
-        // bindParam:指定された変数名にパラメータを結びつける
-        // PDO::PARAM_STR:文字列データであることを指示。
-        $stmt->bindParam(':ONAMAE', $_POST['inputName'],PDO::PARAM_STR);
-        $stmt->bindParam(':GENDER', $_POST['inputGender'],PDO::PARAM_INT);
-        $stmt->execute();
-
-        // リダイレクション今回はlocalhostのsortableに飛ぶようにしている
-        // header('location: http://localhost:80/sortable/');
-        // exit();
-    } catch (PDOException $e) {
-        // echo 'データベースにアクセス出来ません!'.$e->getMessage();
-        echo $e->getMessage();
-    }
-}
-
 /* 移動したようその座標をデータベースへ登録 */
 if(!empty($_POST['left'])){
     file_put_contents('log.txt','ajax空のデータが取れているか確認');
@@ -55,7 +35,7 @@ if(!empty($_POST['left'])){
 <body>
     <div id="wrapper">       
         <div id="input_form">
-            <form action="index.php" method="post">
+            <form action="./function/insert.php" method="post">
                 <input type="text" name="inputName" placeholder="新メンバー名を入力">
                 <?php
                 $sql = 'SELECT * FROM genders';
@@ -64,7 +44,7 @@ if(!empty($_POST['left'])){
 
                 foreach ($result as $val) {
                   $checked = ($val['id'] == 1) ? ' checked="checked"' : ''; //男性にチェックを入れる
-                  echo '  <input type="radio" name="inputSex" value="'.$val['id'].'"' . $checked . '>'.$val['gender'].PHP_EOL;
+                  echo '  <input type="radio" name="inputGender" value="'.$val['id'].'"' . $checked . '>'.$val['gender'].PHP_EOL;
                 }
                 ?>
                 <input type="submit" value="登録">
