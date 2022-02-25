@@ -43,3 +43,11 @@ body {
 .name {
   font-size: 12px;
 }
+
+.gender1 {
+  border: solid 1px #00f;
+}
+
+.gender2 {
+  border: solid 1px #f00;
+}
