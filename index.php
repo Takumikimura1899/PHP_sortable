@@ -1,7 +1,5 @@
 <?php
 
-use LDAP\Result;
-
     error_reporting(-1);
     
     /* データベース設定 */
@@ -31,28 +29,32 @@ use LDAP\Result;
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="wrapper">
-        <div id="drag-area">
-            <?php 
-            $name = '木村拓光';
-            $message = 'こんにちは!';
-
-            echo $name.'さん'.$message;
-
-            $sql = 'SELECT * FROM sortable';
-            $stmt = $dbh->query($sql);
-            // PDO::FETCH_ASSOCで(カラム名で添え字をつけた配列を返す)
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // print_r($result) 
-            foreach ($results as $result) {
-                echo ' <div class="drag" data-num="'.$result['id'].'" style="left:'.$result['left_x'].'px; top:'.$result['top_y'].'px;">'.PHP_EOL;
-                echo '    <p><span class="name">'.$result['id'].' '.$result['name'].'</span></p>'.PHP_EOL;
-                echo '  </div>'.PHP_EOL;
-            }
-            ?>
-
-            
+    <div id="wrapper">       
+        <div id="input_form">
+            <form action="index.php" method="post">
+                <input type="text" name="inputName">
+                <input type="submit" value="登録">
+            </form>
+            <div id="drag-area">
+                <?php 
+                $name = '木村拓光';
+                $message = 'こんにちは!';
+                
+                echo $name.'さん'.$message;
+                
+                $sql = 'SELECT * FROM sortable';
+                $stmt = $dbh->query($sql);
+                // PDO::FETCH_ASSOCで(カラム名で添え字をつけた配列を返す)
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // print_r($result) 
+                foreach ($results as $result) {
+                    echo ' <div class="drag" data-num="'.$result['id'].'" style="left:'.$result['left_x'].'px; top:'.$result['top_y'].'px;">'.PHP_EOL;
+                    echo '    <p><span class="name">'.$result['id'].' '.$result['name'].'</span></p>'.PHP_EOL;
+                    echo '  </div>'.PHP_EOL;
+                }
+                ?>
+            </div>
         </div>
     </div>
 </body>
