@@ -17,6 +17,24 @@
         echo $e->getMessage();
         exit;
 }
+
+if(!empty($_POST['inputName'])) {
+    try{
+        $sql = 'INSERT INTO sortable(name) VALUES(:ONAMAE)';
+        // prepare:値をデータベースに入れる準備をする
+        $stmt = $dbh->prepare($sql);
+        // bindParam:指定された変数名にパラメータを結びつける
+        // PDO::PARAM_STR:文字列データであることを指示。
+        $stmt->bindParam(':ONAMAE', $_POST['inputName'],PDO::PARAM_STR);
+        $stmt->execute();
+
+        // リダイレクション今回はlocalhostのsortableに飛ぶようにしている
+        header('location: http://localhost:80/sortable/');
+        exit();
+    } catch (PDOException $e) {
+        echo 'データベースにアクセス出来ません!'.$e->getMessage();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,10 +55,10 @@
             </form>
             <div id="drag-area">
                 <?php 
-                $name = '木村拓光';
-                $message = 'こんにちは!';
+                // $name = '木村拓光';
+                // $message = 'こんにちは!';
                 
-                echo $name.'さん'.$message;
+                // echo $name.'さん'.$message;
                 
                 $sql = 'SELECT * FROM sortable';
                 $stmt = $dbh->query($sql);
