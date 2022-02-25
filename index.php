@@ -90,7 +90,7 @@ if(!empty($_POST['left'])){
                 
                 // echo $name.'さん'.$message;
                 
-                $sql = 'SELECT * FROM sortable';
+                $sql = 'SELECT t1.*,genders.gender FROM sortable AS t1 LEFT JOIN `genders` ON t1.gender_id = genders.id';
                 $stmt = $dbh->query($sql);
                 // PDO::FETCH_ASSOCで(カラム名で添え字をつけた配列を返す)
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -98,7 +98,7 @@ if(!empty($_POST['left'])){
                 // print_r($result) 
                 foreach ($results as $result) {
                     echo ' <div class="drag gender'.$result['gender_id'].'" data-num="'.$result['id'].'" style="left:'.$result['left_x'].'px; top:'.$result['top_y'].'px;">'.PHP_EOL;
-                    echo '    <p><span class="name">'.$result['id'].' '.$result['name'].'</span></p>'.PHP_EOL;
+                    echo '    <p><span class="name">'.$result['id'].' '.$result['name'].'('.$result['gender'].')</span></p>'.PHP_EOL;
                     echo '  </div>'.PHP_EOL;
                 }
                 ?>
