@@ -2,9 +2,8 @@
 
 error_reporting(-1);
 
-   require_once('./config/config.php');
-
-   
+   require_once('./Controller/Connect.php');
+   $select = new SelectData();
 ?>
 
 <!DOCTYPE html>
@@ -26,9 +25,7 @@ error_reporting(-1);
                 <input type="text" name="inputName" placeholder="新メンバー名を入力">
                 <?php
                 $sql = 'SELECT * FROM genders';
-                $stmt = $dbh->query($sql);
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+                $result = $select->select($sql);
                 foreach ($result as $val) {
                   $checked = ($val['id'] == 1) ? ' checked="checked"' : ''; //男性にチェックを入れる
                   echo '  <input type="radio" name="inputGender" value="'.$val['id'].'"' . $checked . '>'.$val['gender'].PHP_EOL;
@@ -38,20 +35,18 @@ error_reporting(-1);
             </form>
             <div id="drag-area">
                 <?php 
-                // $name = '木村拓光';
-                // $message = 'こんにちは!';
-                
-                // echo $name.'さん'.$message;
-                
-                $sql = 'SELECT t1.*,genders.gender FROM sortable AS t1 LEFT JOIN `genders` ON t1.gender_id = genders.id';
-                $stmt = $dbh->query($sql);
-                // PDO::FETCH_ASSOCで(カラム名で添え字をつけた配列を返す)
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $sql = 'SELECT 
+                            t1.*,
+                            genders.gender
+                        FROM 
+                            sortable AS t1 
+                        LEFT JOIN `genders` ON t1.gender_id = genders.id';
+                $result = $select->select($sql);
                 
                 // print_r($result) 
-                foreach ($results as $result) {
-                    echo ' <div class="drag gender'.$result['gender_id'].'" data-num="'.$result['id'].'" style="left:'.$result['left_x'].'px; top:'.$result['top_y'].'px;">'.PHP_EOL;
-                    echo '    <p><span class="name">'.$result['id'].' '.$result['name'].'('.$result['gender'].')</span></p>'.PHP_EOL;
+                foreach ($result as $val) {
+                    echo ' <div class="drag gender'.$val['gender_id'].'" data-num="'.$val['id'].'" style="left:'.$val['left_x'].'px; top:'.$val['top_y'].'px;">'.PHP_EOL;
+                    echo '    <p><span class="name">'.$val['id'].' '.$val['name'].'('.$val['gender'].')</span></p>'.PHP_EOL;
                     echo '  </div>'.PHP_EOL;
                 }
                 ?>

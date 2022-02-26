@@ -7,7 +7,7 @@
     /* データベースへ接続 */
     try {
     //   $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWORD);
-      $dbh = new PDO(DB_DNS, DB_USER,);
+      $dbh = new PDO(DB_DNS, DB_USER);
       $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     } catch (PDOException $e){

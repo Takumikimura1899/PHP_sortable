@@ -6,15 +6,15 @@ class Connect{
     const HOST = 'localhost';
     const UTF = 'utf8';
     const USER = 'root';
-    const PASS = null;
+    const PASS = 'root';
 
     // データベースに接続するメソッド(関数)
     public function pdo(){
-        $dsn = "mysql:dbname=" .self::DB_NAME. "; host=" .self::HOST. ";charset=" .self::UTF;
+        $dsn = "mysql:host=".self::HOST.";dbname=".self::DB_NAME. "; charset=".self::UTF;
         $user = self::USER;
         $pass = self::PASS;
         try{
-            $pdo = new PDO($dsn, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES' .SELF::UTF));
+            $pdo = new PDO($dsn, $user, $pass);
         }catch(Exception $e) {
             echo 'エラー'.$e->getMessage;
             die();
